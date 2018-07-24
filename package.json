@@ -4,16 +4,26 @@
   "description": "back for myDiamond project",
   "main": "index.js",
   "scripts": {
-    "dev": "nodeamon --watch src src/index.js",
+    "dev": "backpack dev",
     "start": "node src/index.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.16.3"
+    "body-parser": "^1.18.3",
+    "express": "^4.16.3",
+    "pg-promise": "^8.4.5"
   },
   "devDependencies": {
-    "nodemon": "^1.18.3"
+    "babel-preset-stage-0": "^6.24.1",
+    "backpack-core": "^0.7.0",
+    "morgan": "^1.9.0"
+  },
+  "babel": {
+    "presets": [
+      "backpack-core/babel",
+      "stage-0"
+    ]
   }
 }
