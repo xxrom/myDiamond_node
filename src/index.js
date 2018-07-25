@@ -29,6 +29,23 @@ const db = pgp('postgres://ouhvltpduxmogf:14bd371be3883441bcb4d6d1a1aa1d990f8677
 //     console.log('ERROR:', error); // print error;
 //   });
 
+// db.one(`CREATE TABLE demo_2(
+//   id bigserial primary key,
+//   name varchar(20) NOT NULL,
+//   title text NOT NULL,
+//   number real default NULL
+// );`);
+
+// db.one('INSERT INTO demo_2(name, title, number) VALUES($1, $2, $3) RETURNING name', ['Nikita', 'title long text', 2333.234])
+//   .then((name) => console.log('return name ' + name))
+//   .catch((err) => console.log('error', err));
+
+db.any('SELECT * FROM demo_2')
+  .then((data) => {
+    console.log(data);
+  })
+  .catch((err) => console.log(err));
+
 db.any("SELECT * FROM demo_1;")
   .then(function (data) {
     console.log("demo_1:", data);
@@ -38,6 +55,12 @@ db.any("SELECT * FROM demo_1;")
   });
 
 app.get('/', function(req, res) {
+  db.any('SELECT * FROM demo_2')
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => console.log(err));
+
   res.send(`<div>
   <h1>hello World!</h1>
   <h1>hello World! 22222222 22222 222</h1>
