@@ -3,6 +3,8 @@ const logger = require('morgan');
 const bodyParser = require('body-parser');
 const app = express();
 
+const port = process.env.PORT || 8080;
+
 // Log requests to the console.
 app.use(logger('dev'));
 
@@ -76,6 +78,6 @@ db.one('SELECT $1 AS value', 123)
     console.log('ERROR:', error);
   });
 
-app.listen(3000, function() {
-  console.log('app listening on port 3000!');
+app.listen(port, function() {
+  console.log(`app listening on port ${port}!`);
 });
