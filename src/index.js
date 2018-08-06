@@ -21,70 +21,6 @@ const db = pgp('postgres://ouhvltpduxmogf:14bd371be3883441bcb4d6d1a1aa1d990f8677
 
 const router = Router();
 
-router.get('/demos', (req, res) => {
-  db.any('SELECT * FROM demo_2')
-    .then((data) => {
-      console.log('demo_2', data);
-      res.status(200).json(data);
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(505);
-    });
-});
-
-// db.one('CREATE TABLE demo_1(a int);')
-//   .then((data) => {
-//     console.log(`Data: ${data}`)
-//   })
-//   .catch((err) => console.log(`error: ${err}`));
-// db.one('INSERT INTO demo_1(a) VALUES($1) RETURNING a', [321])
-//   .then(data => {
-//     console.log(data.id); // print new user id;
-//   })
-//   .catch(error => {
-//     console.log('ERROR:', error); // print error;
-//   });
-
-// db.one(`CREATE TABLE demo_2(
-//   id bigserial primary key,
-//   name varchar(20) NOT NULL,
-//   title text NOT NULL,
-//   number real default NULL
-// );`);
-
-// db.one(`CREATE TABLE main_1(
-//   main_id bigserial primary key,
-//   date timestamp NOT NULL,
-//   name_id text NOT NULL,
-//   name text NOT NULL,
-//   full_time real NOT NULL,
-//   rate_id BIGINT references rates_1(rate_id) NOT NULL
-// );`);
-// db.one(`CREATE TABLE rates_1(
-//   rate_id bigserial primary key,
-//   rate_week_day real NOT NULL,
-//   rate_week_end real NOT NULL
-// );`);
-
-// db.one('INSERT INTO demo_2(name, title, number) VALUES($1, $2, $3) RETURNING name', ['Nikita', 'title long text', 2333.234])
-//   .then((name) => console.log('return name ' + name))
-//   .catch((err) => console.log('error', err));
-
-// db.any('SELECT * FROM demo_2')
-//   .then((data) => {
-//     console.log(data);
-//   })
-//   .catch((err) => console.log(err));
-
-// db.any("SELECT * FROM demo_1;")
-//   .then(function (data) {
-//     console.log("demo_1:", data);
-//   })
-//   .catch(function (error) {
-//     console.log("ERROR:", error);
-//   });
-
 app.get('/', function(req, res) {
   db.any('SELECT * FROM demo_2')
     .then((data) => {
@@ -99,6 +35,23 @@ app.get('/', function(req, res) {
   `);
 });
 
+app.get('/employee', function(req, res) {
+  console.log('employee path');
+  db.any('SELECT * FROM employee')
+    .then((data) => {
+      console.log('employee', data);
+      res.status(200).send(`<div>
+        <h1>hello World!</h1>
+        <h1>hello World! 22222222 22222 222</h1>
+      </div>
+      `);
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(505);
+    });
+});
+
 db.one('SELECT $1 AS value', 123)
   .then(function(data) {
     console.log('DATA:', data.value);
@@ -110,3 +63,50 @@ db.one('SELECT $1 AS value', 123)
 app.listen(port, function() {
   console.log(`app listening on port ${port}!`);
 });
+
+
+
+
+
+// db.one('INSERT INTO employee(employee_id, name) VALUES($1, $2) RETURNING name', [2, 'Вася'])
+//   .then((name) => console.log('return name ', name))
+//   .catch((err) => console.log('error', err));
+
+// work, employee, article, rate CREATE TABLES
+// db.one(`CREATE TABLE work(
+//   work_id bigserial primary key,
+
+//   date timestamp NOT NULL,
+
+//   employee_id BIGINT references employee(employee_id) NOT NULL,
+//   name_day_id BIGINT NOT NULL,
+
+//   full_time real NOT NULL
+// );`);
+// db.one(`CREATE TABLE article(
+//   article_id bigserial primary key,
+//   work_id BIGINT references work(work_id) NOT NULL,
+
+//   article text NOT NULL,
+//   time real NOT NULL,
+//   amount BIGINT NOT NULL,
+//   boxes BIGINT NOT NULL,
+//   in_box BIGINT NOT NULL,
+
+//   plus_box BIGINT NOT NULL
+// );`);
+// db.one(`CREATE TABLE employee(
+//   employee_id bigserial primary key,
+
+//   name text NOT NULL
+// );`);
+// db.one(`CREATE TABLE rate(
+//   rate_id bigserial primary key,
+//   employee_id BIGINT references employee(employee_id) NOT NULL,
+
+//   start_date timestamp NOT NULL,
+//   end_date timestamp NOT NULL,
+
+//   rate_week_day real NOT NULL,
+//   rate_week_end real NOT NULL
+// );`);
