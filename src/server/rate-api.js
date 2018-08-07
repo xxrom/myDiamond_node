@@ -21,7 +21,7 @@ router.post('/rate', function(req, res) {
   const {
     employee_id, // не закидываем, но он его проверяет САМ!!! КРУТО!!!
     start_date, // in JS => ath.floor(Date.now() / 1000) in seconds from
-    end_date,
+    end_date, // "2002-09-29 00:00:00"
     rate_week_day,
     rate_week_end,
   } = req.body;
@@ -35,21 +35,34 @@ router.post('/rate', function(req, res) {
     .catch(handlers.postCatch);
 });
 
-// curl - d '{"name":"Аккакий"}' - H "Content-Type: application/json" - X PUT http://localhost:8080/api/rate/2
+// curl -d '{"employee_id": 2, "start_date": "2001-09-29 00:00:00", "end_date": "2002-09-29 00:00:00", "rate_week_day": 100, "rate_week_end": 150}' -H "Content-Type: application/json" -X PUT http://localhost:8080/api/rate/2
 // Обновляет запись по ID
 router.put(`/rate/:id`, (req, res) => {
   console.log(`PUT: ${table} path`, req.body);
 
+  const {
+    employee_id,
+    start_date,
+    end_date,
+    rate_week_day,
+    rate_week_end,
+  } = req.body;
+
   db.one(
-    `UPDATE rate SET name = '${req.body.name}'
-      WHERE rate_id = ${req.params.id}
-      RETURNING *`
+    `UPDATE rate SET
+      employee_id = '${employee_id}',
+      start_date = '${start_date}',
+      end_date = '${end_date}',
+      rate_week_day = '${rate_week_day}',
+      rate_week_end = '${rate_week_end}'
+    WHERE rate_id = ${req.params.id}
+    RETURNING *;`
   )
     .then(handlers.putThen)
     .catch(handlers.putCatch);
 });
 
-// curl - H "Content-Type: application/json" - X DELETE http://localhost:8080/api/rate/5
+// curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/rate/2
 // Удаляет запись по id
 router.delete(`/rate/:id`, ({ params: { id } }, req) => {
   console.log(`DELETE: ${table} by ID ${id}`);
