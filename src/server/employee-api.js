@@ -1,5 +1,4 @@
 import { Router } from 'express';
-import { v4 } from 'uuid';
 import db from './db/postgreSQL';
 import * as handlers from './db/then-catch-handlers';
 
