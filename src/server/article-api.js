@@ -1,23 +1,33 @@
 import { Router } from 'express';
-//import { v4 } from 'uuid';
-import db from './postgreSQL';
+import db from './db/postgreSQL';
 
 const router = Router();
+const table = 'article';
 
 router.get('/article', function(req, res) {
-  // http://localhost:8080/api/employee
-  const table = 'article';
-  console.log(`${table} path`);
+  // http://localhost:8080/api/article
+  console.log(`GET: ${table} path`);
 
   db.any(`SELECT * FROM ${table}`)
     .then((data) => {
       console.log(table, data);
-      res.status(200).send(`<h1>${table}!</h1>`);
+      res.status(200).send(`<h1>${table}, ${data}!</h1>`);
     })
     .catch((err) => {
       console.log(err);
       res.status(505);
     });
+});
+
+router.post('/article', function(req, res) {
+  console.log(`POST: ${table} path`, req.body);
+
+  db.one(
+    'INSERT INTO article(article_id, name) VALUES(DEFAULT, $2) RETURNING employee_id',
+    [req.body.name]
+  )
+    .then((name) => console.log('return name ', name))
+    .catch((err) => console.log('error', err));
 });
 
 export default router;
