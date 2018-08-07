@@ -7,7 +7,7 @@ const port = process.env.PORT || 8080;
 
 export default express()
   .use(logger('dev'))
-  .use(bodyParser.json()) // Parse (https://github.com/expressjs/body-parser)
+  .use(bodyParser.json()) // https://github.com/expressjs/body-parser
   .use(bodyParser.urlencoded({ extended: false }))
   .use('/api', articleApi)
   .use('/api', employeeApi)
