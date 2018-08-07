@@ -9,7 +9,7 @@ const table = `rate`;
 router.get(`/rate`, function(req, res) {
   console.log(`GET: ${table} path`);
 
-  db.any(`SELECT * FROM ${table}`)
+  db.any(`SELECT * FROM rate;`)
     .then(handlers.selectThen(res))
     .catch(handlers.selectCatch(res));
 });

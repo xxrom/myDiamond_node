@@ -8,7 +8,7 @@ router.get('/article', function(req, res) {
   // http://localhost:8080/api/article
   console.log(`GET: ${table} path`);
 
-  db.any(`SELECT * FROM ${table}`)
+  db.any(`SELECT * FROM article`)
     .then((data) => {
       console.log(table, data);
       res.status(200).send(`<h1>${table}, ${data}!</h1>`);
