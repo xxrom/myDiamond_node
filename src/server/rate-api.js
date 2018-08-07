@@ -77,10 +77,10 @@ export default router;
 // db.one(`CREATE TABLE rate(
 //   rate_id bigserial primary key,
 //   employee_id BIGINT references employee(employee_id) NOT NULL,
-
+//
 //   start_date timestamp NOT NULL,
 //   end_date timestamp NOT NULL,
-
+//
 //   rate_week_day real NOT NULL,
 //   rate_week_end real NOT NULL
 // );`);
