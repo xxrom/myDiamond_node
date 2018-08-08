@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "backpack dev",
-    "start": "node src/index.js",
+    "start": "node ./build/main.js",
     "build": "backpack build"
   },
   "keywords": [],
