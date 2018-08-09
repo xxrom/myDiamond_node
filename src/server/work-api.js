@@ -10,8 +10,8 @@ router.get(`/work`, function(req, res) {
   console.log(`GET: ${table} path`);
 
   db.any(`SELECT * FROM work;`)
-    .then(handlers.selectThen(res))
-    .catch(handlers.selectCatch(res));
+    .then(handlers.getThen(res))
+    .catch(handlers.getCatch(res));
 });
 
 // curl -d '{"date": "2010-09-29 00:00:00", "employee_id": 2, "name_day_id": 1, "full_time": 480}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/work

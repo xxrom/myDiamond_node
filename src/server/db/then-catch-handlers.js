@@ -1,8 +1,9 @@
-const selectThen = (res) => (data) => {
+const getThen = (res) => (data) => {
   console.log(data);
-  res.status(200).send(`<h1>${JSON.stringify(data)}!</h1>`);
+  res.status(200).json({ body: data });
+  // res.status(200).send(`<h1>${JSON.stringify(data)}!</h1>`);
 };
-const selectCatch = (res) => (err) => {
+const getCatch = (res) => (err) => {
   console.log(`error`, err);
   res.status(505);
 };
@@ -17,8 +18,8 @@ const deleteThen = (data) => console.log(`  return DELETE`, data);
 const deleteCatch = (err) => console.log(`error`, err);
 
 export {
-  selectThen,
-  selectCatch,
+  getThen,
+  getCatch,
   postThen,
   postCatch,
   putThen,

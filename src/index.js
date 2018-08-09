@@ -1,5 +1,6 @@
 const express = require('express');
 const logger = require('morgan');
+var cors = require('cors');
 const bodyParser = require('body-parser');
 import { articleApi, employeeApi, rateApi, workApi } from './server';
 
@@ -9,6 +10,11 @@ export default express()
   .use(logger('dev'))
   .use(bodyParser.json()) // https://github.com/expressjs/body-parser
   .use(bodyParser.urlencoded({ extended: false }))
+  .use(function(req, res, next) {
+    console.log('Time: %d', Date.now());
+    next();
+  })
+  .use(cors())
   .use('/api', articleApi)
   .use('/api', employeeApi)
   .use('/api', rateApi)

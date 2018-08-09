@@ -10,8 +10,8 @@ router.get(`/rate`, function(req, res) {
   console.log(`GET: ${table} path`);
 
   db.any(`SELECT * FROM rate;`)
-    .then(handlers.selectThen(res))
-    .catch(handlers.selectCatch(res));
+    .then(handlers.getThen(res))
+    .catch(handlers.getCatch(res));
 });
 
 // curl -d '{"employee_id": 2, "start_date": "2001-09-29 00:00:00", "end_date": "2002-09-29 00:00:00", "rate_week_day": 100, "rate_week_end": 150}' -H "Content-Type: application/json" -X POST http://localhost:8080/api/rate
