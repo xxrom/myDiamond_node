@@ -23,8 +23,8 @@ router.post('/employee', function(req, res) {
     `INSERT INTO employee(employee_id, name) VALUES(DEFAULT, $1) RETURNING *;`,
     [req.body.name]
   )
-    .then(handlers.postThen)
-    .catch(handlers.postCatch);
+    .then(handlers.postThen(res))
+    .catch(handlers.postCatch(res));
 });
 
 // curl - d '{"name":"Аккакий"}' - H "Content-Type: application/json" - X PUT http://localhost:8080/api/employee/2
@@ -37,8 +37,8 @@ router.put(`/employee/:id`, (req, res) => {
       WHERE employee_id = ${req.params.id}
       RETURNING *`
   )
-    .then(handlers.putThen)
-    .catch(handlers.putCatch);
+    .then(handlers.putThen(res))
+    .catch(handlers.putCatch(res));
 });
 
 // curl - H "Content-Type: application/json" - X DELETE http://localhost:8080/api/employee/5
@@ -47,8 +47,8 @@ router.delete(`/employee/:id`, ({ params: { id } }, req) => {
   console.log(`DELETE: ${table} by ID ${id}`);
 
   db.one(`DELETE FROM employee WHERE employee_id = ${id} RETURNING *;`)
-    .then(handlers.deleteThen)
-    .catch(handlers.deleteCatch);
+    .then(handlers.deleteThen(res))
+    .catch(handlers.deleteCatch(res));
 });
 
 export default router;

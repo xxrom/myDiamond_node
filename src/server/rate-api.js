@@ -31,8 +31,8 @@ router.post('/rate', function(req, res) {
   ) VALUES(DEFAULT, $1, $2, $3, $4, $5) RETURNING *;`,
     [employee_id, start_date, end_date, rate_week_day, rate_week_end]
   )
-    .then(handlers.postThen)
-    .catch(handlers.postCatch);
+    .then(handlers.postThen(res))
+    .catch(handlers.postCatch(res));
 });
 
 // curl -d '{"employee_id": 2, "start_date": "2001-09-29 00:00:00", "end_date": "2002-09-29 00:00:00", "rate_week_day": 100, "rate_week_end": 150}' -H "Content-Type: application/json" -X PUT http://localhost:8080/api/rate/2
@@ -58,8 +58,8 @@ router.put(`/rate/:id`, (req, res) => {
     WHERE rate_id = ${req.params.id}
     RETURNING *;`
   )
-    .then(handlers.putThen)
-    .catch(handlers.putCatch);
+    .then(handlers.putThen(res))
+    .catch(handlers.putCatch(res));
 });
 
 // curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/rate/2
@@ -68,8 +68,8 @@ router.delete(`/rate/:id`, ({ params: { id } }, req) => {
   console.log(`DELETE: ${table} by ID ${id}`);
 
   db.one(`DELETE FROM rate WHERE rate_id = ${id} RETURNING *;`)
-    .then(handlers.deleteThen)
-    .catch(handlers.deleteCatch);
+    .then(handlers.deleteThen(res))
+    .catch(handlers.deleteCatch(res));
 });
 
 export default router;

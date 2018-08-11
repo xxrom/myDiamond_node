@@ -25,8 +25,8 @@ router.post('/work', function(req, res) {
   ) VALUES(DEFAULT, $1, $2, $3, $4) RETURNING *;`,
     [date, employee_id, name_day_id, full_time]
   )
-    .then(handlers.postThen)
-    .catch(handlers.postCatch);
+    .then(handlers.postThen(res))
+    .catch(handlers.postCatch(res));
 });
 
 // curl -d '{"date": "2010-09-29 00:00:00", "employee_id": 3, "name_day_id": 4, "full_time": 360}' -H "Content-Type: application/json" -X PUT http://localhost:8080/api/work/2
@@ -45,8 +45,8 @@ router.put(`/work/:id`, (req, res) => {
     WHERE work_id = ${req.params.id}
     RETURNING *;`
   )
-    .then(handlers.putThen)
-    .catch(handlers.putCatch);
+    .then(handlers.putThen(res))
+    .catch(handlers.putCatch(res));
 });
 
 // curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/work/4
@@ -55,8 +55,8 @@ router.delete(`/work/:id`, ({ params: { id } }, req) => {
   console.log(`DELETE: ${table} by ID ${id}`);
 
   db.one(`DELETE FROM work WHERE work_id = ${id} RETURNING *;`)
-    .then(handlers.deleteThen)
-    .catch(handlers.deleteCatch);
+    .then(handlers.deleteThen(res))
+    .catch(handlers.deleteCatch(res));
 });
 
 export default router;

@@ -25,8 +25,8 @@ router.post('/article', function(req, res) {
   ) VALUES(DEFAULT, $1, $2, $3, $4, $5, $6, $7) RETURNING *;`,
     [work_id, article, time, amount, boxes, in_box, plus_box]
   )
-    .then(handlers.postThen)
-    .catch(handlers.postCatch);
+    .then(handlers.postThen(res))
+    .catch(handlers.postCatch(res));
 });
 
 // curl -d '{"work_id": 1, "article": "LIDT-4-2", "time": 120, "amount": 400, "boxes": 7, "in_box": 60, "plus_box": 40}' -H "Content-Type: application/json" -X PUT http://localhost:8080/api/article/1
@@ -48,8 +48,8 @@ router.put(`/article/:id`, (req, res) => {
     WHERE article_id = ${req.params.id}
     RETURNING *;`
   )
-    .then(handlers.putThen)
-    .catch(handlers.putCatch);
+    .then(handlers.putThen(res))
+    .catch(handlers.putCatch(res));
 });
 
 // curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/article/2
@@ -58,8 +58,8 @@ router.delete(`/article/:id`, ({ params: { id } }, req) => {
   console.log(`DELETE: ${table} by ID ${id}`);
 
   db.one(`DELETE FROM article WHERE article_id = ${id} RETURNING *;`)
-    .then(handlers.deleteThen)
-    .catch(handlers.deleteCatch);
+    .then(handlers.deleteThen(res))
+    .catch(handlers.deleteCatch(res));
 });
 
 export default router;
