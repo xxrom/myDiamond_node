@@ -64,10 +64,23 @@ router.put(`/rate/:id`, (req, res) => {
 
 // curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/rate/2
 // Удаляет запись по id
-router.delete(`/rate/:id`, ({ params: { id } }, req) => {
+router.delete(`/rate/:id`, (req, res) => {
+  const { id } = req.params;
   console.log(`DELETE: ${table} by ID ${id}`);
 
   db.one(`DELETE FROM rate WHERE rate_id = ${id} RETURNING *;`)
+    .then(handlers.deleteThen(res))
+    .catch(handlers.deleteCatch(res));
+});
+
+// ADDITIONAL API
+
+// Удаляет запись по employee_id
+router.delete(`/rate/by-employee-id/:employee_id`, (req, res) => {
+  const { employee_id } = req.params;
+  console.log(`DELETE: ${table} by employee_id = ${employee_id}`);
+
+  db.one(`DELETE FROM rate WHERE employee_id = ${employee_id} RETURNING *;`)
     .then(handlers.deleteThen(res))
     .catch(handlers.deleteCatch(res));
 });

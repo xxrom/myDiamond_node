@@ -43,7 +43,8 @@ router.put(`/employee/:id`, (req, res) => {
 
 // curl - H "Content-Type: application/json" - X DELETE http://localhost:8080/api/employee/5
 // Удаляет запись по id
-router.delete(`/employee/:id`, ({ params: { id } }, req) => {
+router.delete(`/employee/:id`, (req, res) => {
+  const { id } = req.params;
   console.log(`DELETE: ${table} by ID ${id}`);
 
   db.one(`DELETE FROM employee WHERE employee_id = ${id} RETURNING *;`)
