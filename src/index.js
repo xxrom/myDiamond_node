@@ -2,7 +2,13 @@ const express = require('express');
 const logger = require('morgan');
 var cors = require('cors');
 const bodyParser = require('body-parser');
-import { articleApi, employeeApi, rateApi, workApi } from './server';
+import {
+  articleApi,
+  employeeApi,
+  rateApi,
+  workApi,
+  employeeTableApi,
+} from './server';
 
 const port = process.env.PORT || 8080;
 
@@ -19,4 +25,5 @@ export default express()
   .use('/api', employeeApi)
   .use('/api', rateApi)
   .use('/api', workApi)
+  .use('/api', employeeTableApi)
   .listen(port, () => console.log(`🌎 app listening on port ${port}!`));
