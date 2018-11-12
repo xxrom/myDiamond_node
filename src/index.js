@@ -8,6 +8,7 @@ import {
   rateApi,
   workApi,
   employeeTableApi,
+  workTableApi,
 } from './server';
 
 const port = process.env.PORT || 8080;
@@ -26,4 +27,5 @@ export default express()
   .use('/api', rateApi)
   .use('/api', workApi)
   .use('/api', employeeTableApi)
+  .use('/api', workTableApi)
   .listen(port, () => console.log(`🌎 app listening on port ${port}!`));
