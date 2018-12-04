@@ -54,12 +54,32 @@ router.put(`/article/:id`, (req, res) => {
 
 // curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/article/2
 // Удаляет запись по id
-router.delete(`/article/:id`, ({ params: { id } }, req) => {
+router.delete(`/article/:id`, (req, res) => {
+  const {
+    params: { id },
+  } = req;
+
   console.log(`DELETE: ${table} by ID ${id}`);
 
-  db.one(`DELETE FROM article WHERE article_id = ${id} RETURNING *;`)
+  db.one(`DELETE FROM ${table} WHERE article_id = ${id} RETURNING *;`)
     .then(handlers.deleteThen(res))
     .catch(handlers.deleteCatch(res));
+});
+
+// Additional, delete
+
+// curl -H "Content-Type: application/json" -X GET http://localhost:8080/api/article/by/work-id/9
+router.get(`/article/by/work-id/:id`, function(req, res) {
+  console.log(`GET: ${table} /article/by/work-id/:id`);
+  const {
+    params: { id },
+  } = req;
+
+  console.log('id', id);
+
+  db.any(`SELECT * FROM ${table} WHERE work_id = ${id};`)
+    .then(handlers.getThen(res))
+    .catch(handlers.getCatch(res));
 });
 
 export default router;

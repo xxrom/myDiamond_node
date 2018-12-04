@@ -51,8 +51,9 @@ router.put(`/work/:id`, (req, res) => {
 
 // curl -H "Content-Type: application/json" -X DELETE http://localhost:8080/api/work/4
 // Удаляет запись по id
-router.delete(`/work/:id`, ({ params: { id } }, req) => {
+router.delete(`/work/:id`, ({ params: { id } }, res) => {
   console.log(`DELETE: ${table} by ID ${id}`);
+  console.log('res', res.status);
 
   db.one(`DELETE FROM work WHERE work_id = ${id} RETURNING *;`)
     .then(handlers.deleteThen(res))

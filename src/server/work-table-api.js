@@ -9,7 +9,7 @@ const table = `work-table`;
 router.get(`/work-table`, function(req, res) {
   console.log(`GET: ${table} path`);
 
-  db.any(`SELECT * FROM work, article WHERE work.work_id = article.work_id;`)
+  db.any(`SELECT * FROM work, article, employee WHERE work.work_id = article.work_id AND work.employee_id = employee.employee_id;`)
     .then(handlers.getThen(res))
     .catch(handlers.getCatch(res));
 });
