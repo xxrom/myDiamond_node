@@ -36,15 +36,24 @@ router.put(`/article/:id`, (req, res) => {
 
   const { work_id, article, time, amount, boxes, in_box, plus_box } = req.body;
 
+  // Формируем динамическую строку с параметрами
+  let sqlSet = '';
+  work_id ? (sqlSet += `work_id = '${work_id}',`) : '';
+  article ? (sqlSet += `article = '${article}',`) : '';
+  time ? (sqlSet += `time = '${time}',`) : '';
+  amount ? (sqlSet += `amount = '${amount}',`) : '';
+  boxes ? (sqlSet += `boxes = '${boxes}',`) : '';
+  in_box ? (sqlSet += `in_box = '${in_box}',`) : '';
+  plus_box ? (sqlSet += `plus_box = '${plus_box}',`) : '';
+
+  // Удаляем последную запятую
+  sqlSet = sqlSet.replace(/\,$/, '');
+
+  console.log(`sqlSet = ${sqlSet}`);
+
   db.one(
     `UPDATE article SET
-      work_id = '${work_id}',
-      article = '${article}',
-      time = '${time}',
-      amount = '${amount}',
-      boxes = '${boxes}',
-      in_box = '${in_box}',
-      plus_box = '${plus_box}'
+      ${sqlSet}
     WHERE article_id = ${req.params.id}
     RETURNING *;`
   )
